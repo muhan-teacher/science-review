@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>무한쌤의 통합과학 ∞도전 | 생물의 진화와 생물다양성 복습</title>
+<style>
+  :root{
+    --bg:#f5f7f4;
+    --surface:#ffffff;
+    --ink:#1c2a24;
+    --ink-soft:#54655d;
+    --line:#dfe6e0;
+    --brand:#2f7d5d;
+    --brand-soft:#e8f3ed;
+    --brand-deep:#1f5b43;
+    --accent:#c97b1f;
+    --accent-soft:#fbf1e3;
+    --ok:#2f7d5d;
+    --no:#c0392b;
+    --radius:14px;
+    --shadow:0 1px 2px rgba(28,42,36,.06), 0 8px 24px rgba(28,42,36,.06);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;
+    line-height:1.65; -webkit-text-size-adjust:100%;
+  }
+  header.top{
+    background:linear-gradient(135deg,var(--brand-deep),var(--brand));
+    color:#fff; padding:28px 20px 24px;
+  }
+  .wrap{max-width:960px;margin:0 auto}
+  header.top .eyebrow{font-size:13px;letter-spacing:.08em;opacity:.85;margin:0}
+  header.top h1{margin:6px 0 8px;font-size:26px;line-height:1.35}
+  header.top p.sub{margin:0;font-size:14px;opacity:.9}
+  nav.tabs{
+    position:sticky; top:0; z-index:20; background:var(--surface);
+    border-bottom:1px solid var(--line); box-shadow:0 2px 10px rgba(28,42,36,.04);
+  }
+  nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto}
+  nav.tabs button{
+    flex:0 0 auto; border:0; background:none; cursor:pointer;
+    padding:14px 16px; font-size:15px; font-weight:600; color:var(--ink-soft);
+    border-bottom:3px solid transparent; font-family:inherit;
+  }
+  nav.tabs button[aria-selected="true"]{color:var(--brand);border-bottom-color:var(--brand)}
+  nav.tabs button:hover{color:var(--brand)}
+  main{padding:24px 20px 80px}
+  section[role="tabpanel"][hidden]{display:none}
+  h2.sec{font-size:20px;margin:32px 0 12px;padding-left:12px;border-left:5px solid var(--brand)}
+  h2.sec:first-child{margin-top:8px}
+  .card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px 20px; margin:12px 0; box-shadow:var(--shadow);
+  }
+  .card h3{margin:0 0 8px;font-size:17px;color:var(--brand-deep)}
+  .card p{margin:6px 0}
+  .card ul{margin:6px 0;padding-left:20px}
+  .card li{margin:4px 0}
+  .goal{background:var(--brand-soft);border-color:#cfe4d8}
+  .goal dt{font-weight:700;color:var(--brand-deep);margin-top:8px}
+  .goal dd{margin:2px 0 0}
+  .tag{
+    display:inline-block;background:var(--brand-soft);color:var(--brand-deep);
+    font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;margin-right:6px;
+  }
+  .tag.adv{background:var(--accent-soft);color:#8a5310}
+  .hl{background:linear-gradient(transparent 58%,#ffe9a8 58%);font-weight:700;padding:0 2px}
+  .flow{
+    display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+    background:#fafbfa;border:1px dashed var(--line);border-radius:10px;padding:12px;margin:10px 0;
+  }
+  .flow span.step{background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:14px}
+  .flow span.arrow{color:var(--brand);font-weight:700}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px;background:#fff}
+  th,td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}
+  th{background:var(--brand-soft);color:var(--brand-deep);font-size:14px}
+  .ex{
+    background:var(--accent-soft);border-left:4px solid var(--accent);
+    border-radius:0 8px 8px 0;padding:10px 14px;margin:10px 0;font-size:14px;
+  }
+  .ex strong{color:#8a5310}
+  details.check{
+    margin:10px 0;background:#fafbfa;border:1px solid var(--line);border-radius:10px;padding:10px 14px;
+  }
+  details.check summary{cursor:pointer;font-weight:700;color:var(--brand-deep)}
+  details.check p{font-size:14px;margin-top:8px}
+  footer{border-top:1px solid var(--line);padding:20px;text-align:center;color:var(--ink-soft);font-size:13px}
+  /* quiz */
+  .levelbar{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px}
+  .levelbar button{
+    font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;
+    padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);
+  }
+  .levelbar button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+  .progress{height:8px;background:#e6ece8;border-radius:999px;overflow:hidden;margin:14px 0 4px}
+  .progress i{display:block;height:100%;background:var(--brand);width:0;transition:width .3s}
+  .meta{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-soft);margin-bottom:14px}
+  .qcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+  .qnum{font-size:13px;color:var(--brand);font-weight:700;letter-spacing:.05em}
+  .qtext{font-size:18px;font-weight:700;margin:8px 0 16px;line-height:1.55}
+  .opts{display:grid;gap:8px}
+  .opts button{
+    font-family:inherit;text-align:left;font-size:15px;cursor:pointer;
+    padding:12px 14px;border-radius:10px;border:1.5px solid var(--line);background:#fff;color:var(--ink);
+    transition:border-color .15s, background .15s;
+  }
+  .opts button:hover:not(:disabled){border-color:var(--brand);background:var(--brand-soft)}
+  .opts button:disabled{cursor:default;opacity:1}
+  .opts button.correct{border-color:var(--ok);background:#e8f5ee;font-weight:700}
+  .opts button.wrong{border-color:var(--no);background:#fdecea}
+  .sa{display:flex;gap:8px;flex-wrap:wrap}
+  .sa input{
+    flex:1 1 220px;font-family:inherit;font-size:15px;padding:12px 14px;
+    border:1.5px solid var(--line);border-radius:10px;
+  }
+  .sa input:focus{outline:none;border-color:var(--brand)}
+  .btn{
+    font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;border:0;
+    background:var(--brand);color:#fff;padding:12px 20px;border-radius:10px;
+  }
+  .btn:hover{background:var(--brand-deep)}
+  .btn.ghost{background:#fff;color:var(--brand);border:1.5px solid var(--brand)}
+  .fb{margin-top:16px;padding:14px;border-radius:10px;font-size:14.5px;display:none}
+  .fb.show{display:block}
+  .fb.o{background:#e8f5ee;border-left:4px solid var(--ok)}
+  .fb.x{background:#fdecea;border-left:4px solid var(--no)}
+  .fb>b:first-child{display:block;margin-bottom:4px}
+  .nav-row{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+  .result{text-align:center;padding:32px 20px}
+  .score{font-size:52px;font-weight:800;color:var(--brand);line-height:1.1}
+  .msg{font-size:17px;font-weight:700;margin:10px 0 4px}
+  .review{text-align:left;margin-top:24px}
+  .review .item{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:8px 0;background:#fff;font-size:14px}
+  .review .item .q{font-weight:700;margin-bottom:6px}
+  .review .item .mine{color:var(--no)}
+  .review .item .ans{color:var(--ok);font-weight:700}
+  @media (max-width:600px){
+    header.top h1{font-size:21px}
+    .qtext{font-size:16.5px}
+    main{padding:18px 14px 60px}
+    table{font-size:13px}
+    th,td{padding:8px}
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <p class="eyebrow">무한쌤의 통합과학 ∞도전</p>
+    <h1>Ⅰ-1-02. 생물의 진화 ~ 03. 생물다양성과 보전</h1>
+    <p class="sub">개념 정리 · 탐구 · 기본/심화 퀴즈로 스스로 복습하기</p>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="복습 메뉴">
+  <div class="wrap" role="tablist">
+    <button role="tab" id="tab-concept" aria-controls="panel-concept" aria-selected="true">📘 개념 정리</button>
+    <button role="tab" id="tab-diversity" aria-controls="panel-diversity" aria-selected="false">🌏 생물다양성</button>
+    <button role="tab" id="tab-quiz" aria-controls="panel-quiz" aria-selected="false">✏️ 복습 퀴즈</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ============ 개념 정리 ============ -->
+<section role="tabpanel" id="panel-concept" aria-labelledby="tab-concept">
+
+  <div class="card goal">
+    <h3>학습 목표</h3>
+    <dl>
+      <dt>성취기준</dt>
+      <dd>변이의 발생과 자연선택 과정을 통해 생물의 진화가 일어나고, 진화의 과정을 통해 생물다양성이 형성되었음을 추론할 수 있다.</dd>
+      <dt><span class="tag">기본</span></dt>
+      <dd>자연선택 과정을 통해 생물의 진화가 일어나고 있음을 말하고, 생물다양성을 보전하는 것이 중요함을 인식한다.</dd>
+      <dt><span class="tag adv">심화</span></dt>
+      <dd>생물다양성의 의미를 유전적 다양성, 종 다양성, 생태계 다양성으로 설명하며, 생물다양성을 보전하기 위한 구체적인 사례와 실천 방안을 제시할 수 있다.</dd>
+    </dl>
+  </div>
+
+  <h2 class="sec">배경 열기</h2>
+  <div class="card">
+    <p>🏜️ 사막에 사는 쥐 <b>(밝은 색)</b> &nbsp;↔&nbsp; 🪨 암석 지대에 사는 쥐 <b>(어두운 색)</b></p>
+    <p><b>Q.</b> 같은 종의 쥐라도 환경에 따라 털색이 다른 까닭은 무엇일까?</p>
+    <details class="check">
+      <summary>생각해 보고 열기</summary>
+      <p>각 환경에서 <span class="hl">눈에 덜 띄어 살아남기 유리한 털색</span>을 가진 개체가 더 많이 살아남아 자손을 남겼기 때문이다. 즉 <b>변이 → 자연선택</b>의 결과다.</p>
+    </details>
+  </div>
+
+  <h2 class="sec">1. 변이의 발생</h2>
+  <div class="card">
+    <h3>변이란?</h3>
+    <p><b>변이</b>: 같은 종의 개체 간에 나타나는 형질의 차이</p>
+    <div class="ex"><strong>예시</strong> 같은 푸들(종)이어도 털색(형질)이 다르다.</div>
+    <p>형질을 결정하는 것은 <span class="hl">유전자</span> → 개체마다 유전정보가 다르다.</p>
+    <p><b>변이가 생기는 까닭</b></p>
+    <ul>
+      <li><b>유성생식</b> — 부모의 유전자가 다양하게 조합됨</li>
+      <li><b>돌연변이</b> — 유전정보 자체가 새롭게 바뀜</li>
+    </ul>
+  </div>
+
+  <h2 class="sec">2. 자연선택</h2>
+  <div class="card">
+    <h3>자연선택이란?</h3>
+    <p><b>자연선택</b>: 개체들 중 생존과 번식에 <span class="hl">‘유리한’ 형질</span>을 가진 개체가 살아남아 자손을 더 많이 남기는 과정</p>
+    <div class="flow">
+      <span class="step">변이 존재</span><span class="arrow">→</span>
+      <span class="step">환경에 유리한 형질</span><span class="arrow">→</span>
+      <span class="step">더 많이 생존·번식</span><span class="arrow">→</span>
+      <span class="step">그 형질의 비율 증가</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>자연선택 사례 ① 어두운 토양에 사는 딱정벌레</h3>
+    <p>밝은 딱정벌레 수 <b>&lt;</b> 어두운 딱정벌레 수 &nbsp;=&nbsp; 새에게 잡힐 확률이 낮음</p>
+    <ul>
+      <li>생존에 유리한 형질 = <span class="hl">어두운 몸 색깔</span></li>
+      <li>어두운 딱정벌레가 살아남아 자손을 더 많이 남김</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>자연선택 사례 ② 항생제를 꾸준히 먹는 환자의 몸에 사는 세균</h3>
+    <p>항생제 내성이 <b>없는</b> 세균 수 <b>&lt;</b> 항생제 내성이 <b>있는</b> 세균 수</p>
+    <ul>
+      <li>생존에 유리한 형질 = <span class="hl">항생제 내성</span></li>
+      <li>항생제 내성이 있는 세균이 살아남아 자손을 더 많이 남김</li>
+    </ul>
+  </div>
+
+  <h2 class="sec">[탐구] 자연선택 모의실험 — 이쑤시개 집어내기</h2>
+  <div class="card">
+    <ol>
+      <li>황색 종이 위에 <b>나무 이쑤시개</b>와 <b>녹말 이쑤시개</b>를 20개씩 놓는다.</li>
+      <li>눈을 감았다가 뜬 직후 눈에 보이는 이쑤시개를 20개 제거한다.</li>
+      <li>같은 종류의 이쑤시개를 남은 수만큼 더해 준다.</li>
+    </ol>
+    <details class="check">
+      <summary>실험 해석 확인하기</summary>
+      <p>황색 종이 위에서는 <span class="hl">황색과 비슷한 나무 이쑤시개</span>가 눈에 잘 띄지 않아 덜 제거된다. 세대를 반복할수록 나무 이쑤시개의 비율이 높아지는데, 이는 <b>환경(황색 종이)에 유리한 형질(황색 계열)</b>이 자연선택되어 집단의 형질 구성이 변하는 과정을 보여 준다.<br>
+      · 이쑤시개 = 개체 / 색깔 = 변이 / 집어내는 사람 = 포식자 / 남은 수만큼 더하기 = 번식</p>
+    </details>
+  </div>
+
+  <h2 class="sec">3. 진화</h2>
+  <div class="card">
+    <h3>진화란?</h3>
+    <p><b>진화</b>: 원래의 종에서 오랜 세월 동안 여러 세대를 거치면서 생물의 특성이 변화함 → <span class="hl">새로운 종이 생겨남</span></p>
+  </div>
+
+  <div class="card">
+    <h3>다윈의 자연선택설</h3>
+    <p>자연선택을 거듭하면서 진화가 일어난다고 주장함.</p>
+    <div class="flow">
+      <span class="step">주어진 환경에 잘 적응한 개체</span><span class="arrow">→</span>
+      <span class="step">경쟁에서 살아남음</span><span class="arrow">→</span>
+      <span class="step">자신의 유전자를 더 많은 자손에게 물려줌</span>
+    </div>
+    <p>이 과정을 오랜 세월에 걸쳐 반복 = 조상과는 다른 형질이 나타남(<b>새로운 종 발생</b>)</p>
+  </div>
+
+  <div class="card">
+    <h3>진화 사례 — 갈라파고스 제도의 핀치</h3>
+    <p>갈라파고스 제도는 <b>먹이 환경이 서로 다른 섬들</b>로 이루어짐 → 섬마다 생존에 유리한 형질이 다름 → 핀치의 부리가 서로 다름</p>
+    <table>
+      <tr><th>구분</th><th>환경</th><th>부리 특징</th></tr>
+      <tr><td>조상 핀치</td><td>초원 환경</td><td>보통 크기의 부리</td></tr>
+      <tr><td rowspan="2">현대 핀치</td><td>곤충이 많은 환경</td><td>짧고 단단한 부리</td></tr>
+      <tr><td>씨앗이 많은 환경</td><td>크고 두꺼운 부리</td></tr>
+    </table>
+    <p>조상 핀치의 부리 ≠ 현대 핀치의 부리 → <span class="hl">새로운 종 발생 = 진화</span></p>
+  </div>
+</section>
+
+<!-- ============ 생물다양성 ============ -->
+<section role="tabpanel" id="panel-diversity" aria-labelledby="tab-diversity" hidden>
+
+  <h2 class="sec">4. 생물다양성의 3요소</h2>
+  <div class="card">
+    <table>
+      <tr><th style="width:22%">요소</th><th style="width:34%">의미</th><th>특징</th></tr>
+      <tr>
+        <td><b>유전적 다양성</b></td>
+        <td>종의 개체 간 유전적 차이 (= 형질 차이)<br><span style="color:#54655d">[호랑나비: 날개 무늬 다양]</span></td>
+        <td>환경 변화 적응에 필요한 유전자를 가진 개체가 있을 확률이 높음 <b>= 멸종 가능성 낮음</b></td>
+      </tr>
+      <tr>
+        <td><b>종 다양성</b></td>
+        <td>한 생태계에 살고 있는 생물종이 다양함</td>
+        <td>먹이그물이 복잡함 <b>= 생태계 유지</b></td>
+      </tr>
+      <tr>
+        <td><b>생태계 다양성</b></td>
+        <td>생태계가 다양함<br><span style="color:#54655d">(숲, 사막, 바다 등)</span></td>
+        <td>다양한 환경 = 환경에 적응한 생물이 다양함 → <b>종 다양성도 높아짐</b></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>사례로 이해하기</h3>
+    <div class="ex">
+      <strong>유전적 다양성 — 바나나 “복사 붙여넣기”</strong><br>
+      캐번디시 바나나: 개체 간 유전자 차이가 없음 → 치명적인 세균이나 기후 변화가 닥치면 <b>한꺼번에 멸종</b>될 수 있음.
+    </div>
+    <div class="ex">
+      <strong>종 다양성 — 메뚜기가 멸종된 생태계</strong><br>
+      생태계 A [참새 – 메뚜기 – 벼]<br>
+      생태계 B [참새 – 메뚜기, 쥐 – 벼]<br>
+      메뚜기가 멸종되어도 생태계 B에서는 <b>먹이그물이 유지됨 = 생태계 안정</b>.
+    </div>
+    <div class="ex">
+      <strong>생태계 다양성 — 갯벌 파괴</strong><br>
+      갯벌이라는 생태계가 사라지면(생태계 다양성 감소) 갯벌 환경에 적응한 생물(게, 꼬막 등)이 멸종한다.
+    </div>
+    <details class="check">
+      <summary>세 요소 한 줄로 구분하기</summary>
+      <p><b>유전적 다양성</b> = 한 종 <u>안</u>에서의 차이 / <b>종 다양성</b> = 한 생태계 <u>안</u>의 종의 수와 고르기 / <b>생태계 다양성</b> = 지구 위 <u>서식지 자체</u>의 다양함</p>
+    </details>
+  </div>
+
+  <h2 class="sec">5. 생물다양성의 가치와 보전</h2>
+  <div class="card">
+    <h3>생물다양성의 가치 — 생물자원 이용</h3>
+    <ul>
+      <li>식량 · 의복 재료</li>
+      <li>휴식처</li>
+      <li>의약품</li>
+      <li>에너지 · 재료</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>생물다양성 보전 방법</h3>
+    <ul>
+      <li><b>국가·사회 차원</b>: 법 제정, 멸종 위기종 복원, 국립공원·보호구역 지정</li>
+      <li><b>개인 차원</b>: 재활용, 대중교통 이용, 친환경 제품 사용, 홍보 활동</li>
+    </ul>
+    <div class="ex"><strong>수행 과제</strong> 보전 방법 <b>사례 1가지</b>를 조사하여 패들렛에 게시하기</div>
+  </div>
+</section>
+
+<!-- ============ 퀴즈 ============ -->
+<section role="tabpanel" id="panel-quiz" aria-labelledby="tab-quiz" hidden>
+  <h2 class="sec">복습 퀴즈</h2>
+  <p style="color:var(--ink-soft);font-size:14px;margin-top:0">단계를 고르고 풀어 보세요. 답을 고르면 바로 해설이 나옵니다.</p>
+  <div class="levelbar" id="levelbar">
+    <button data-level="basic" aria-pressed="true">🟢 기본 단계 (10문항)</button>
+    <button data-level="advanced" aria-pressed="false">🟠 심화 단계 (10문항)</button>
+    <button data-level="all" aria-pressed="false">🏆 전체 도전 (20문항)</button>
+  </div>
+  <div class="progress"><i id="bar"></i></div>
+  <div class="meta"><span id="counter">1 / 10</span><span id="scoreNow">맞힌 개수 0</span></div>
+  <div id="quizArea"></div>
+</section>
+
+</main>
+
+<footer>무한쌤의 통합과학 ∞도전 · Ⅰ-1-02 생물의 진화 ~ 03 생물다양성과 보전 복습 프로그램</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- 탭 전환 ---------- */
+  var tabs = document.querySelectorAll('nav.tabs button[role="tab"]');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(o){
+        o.setAttribute('aria-selected','false');
+        document.getElementById(o.getAttribute('aria-controls')).hidden = true;
+      });
+      t.setAttribute('aria-selected','true');
+      document.getElementById(t.getAttribute('aria-controls')).hidden = false;
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+
+  /* ---------- 문항 데이터 ---------- */
+  // type: "mc"(객관식/OX) | "sa"(단답)
+  var BANK = {
+    basic: [
+      {type:"mc", q:"‘변이’에 대한 설명으로 옳은 것은?",
+       opts:["서로 다른 종 사이에 나타나는 차이","같은 종의 개체 간에 나타나는 형질의 차이","환경에 따라 종이 새로 생기는 현상","자손을 많이 남기는 능력"],
+       a:1, ex:"변이는 <b>같은 종</b>의 개체 간에 나타나는 형질의 차이입니다. 같은 푸들이어도 털색이 다른 것이 변이예요."},
+
+      {type:"mc", q:"O/X — 개체의 형질을 결정하는 것은 유전자이며, 개체마다 유전정보가 다르다.",
+       opts:["O","X"], a:0,
+       ex:"형질을 결정하는 것은 유전자이고, 유성생식·돌연변이 등으로 개체마다 유전정보가 달라집니다."},
+
+      {type:"mc", q:"자연선택의 정의로 알맞은 것은?",
+       opts:["사람이 원하는 형질을 골라 교배시키는 과정","환경이 생물의 유전자를 직접 바꾸는 과정","생존과 번식에 유리한 형질을 가진 개체가 살아남아 자손을 더 많이 남기는 과정","모든 개체가 똑같은 수의 자손을 남기는 과정"],
+       a:2, ex:"자연선택은 <b>유리한 형질을 가진 개체가 더 많은 자손을 남기는</b> 과정입니다. 환경이 유전자를 직접 바꾸는 것이 아닙니다."},
+
+      {type:"mc", q:"어두운 토양에 사는 딱정벌레 집단에서 생존에 유리한 형질은?",
+       opts:["밝은 몸 색깔","어두운 몸 색깔","큰 몸집","빠른 번식 속도"],
+       a:1, ex:"어두운 토양에서는 어두운 몸 색깔이 새에게 잡힐 확률이 낮아 유리합니다. 그래서 어두운 딱정벌레가 더 많아집니다."},
+
+      {type:"mc", q:"항생제를 꾸준히 먹는 환자의 몸속 세균 집단에서 나타나는 변화는?",
+       opts:["항생제 내성이 없는 세균이 많아진다","항생제 내성이 있는 세균이 많아진다","모든 세균이 똑같이 줄어든다","세균이 항생제를 먹고 유전자를 바꾼다"],
+       a:1, ex:"항생제 환경에서는 <b>내성</b>이 생존에 유리한 형질이므로, 내성이 있는 세균이 살아남아 자손을 더 많이 남깁니다."},
+
+      {type:"mc", q:"‘진화’의 의미로 가장 알맞은 것은?",
+       opts:["한 개체가 일생 동안 몸을 단련해 강해지는 것","오랜 세월 여러 세대를 거치며 생물의 특성이 변화해 새로운 종이 생겨나는 것","같은 종 안에서 개체마다 형질이 다른 것","환경이 나빠져 생물이 사라지는 것"],
+       a:1, ex:"진화는 <b>여러 세대에 걸쳐</b> 집단의 특성이 변하는 것이며, 그 결과 새로운 종이 생겨납니다. 한 개체의 일생 동안의 변화는 진화가 아닙니다."},
+
+      {type:"sa", q:"자연선택을 거듭하면서 진화가 일어난다고 주장한 다윈의 학설 이름은?",
+       a:["자연선택설","자연 선택설","다윈의 자연선택설","자연선택"],
+       ex:"정답은 <b>자연선택설</b>입니다. 다윈은 환경에 잘 적응한 개체가 경쟁에서 살아남아 유전자를 더 많이 물려준다고 설명했습니다."},
+
+      {type:"mc", q:"갈라파고스 제도의 핀치들이 섬마다 부리 모양이 다른 까닭은?",
+       opts:["섬마다 먹이 환경이 달라 생존에 유리한 형질이 다르기 때문","사람이 부리 모양을 골라 길렀기 때문","부리를 자주 써서 모양이 바뀌었기 때문","섬마다 기온이 같기 때문"],
+       a:0, ex:"먹이 환경이 다르면 유리한 부리 모양도 달라집니다. 곤충이 많은 곳은 짧고 단단한 부리, 씨앗이 많은 곳은 크고 두꺼운 부리가 선택되었습니다."},
+
+      {type:"sa", q:"생물다양성의 3요소를 모두 쓰시오. (예: ○○ 다양성, ○ 다양성, ○○○ 다양성)",
+       a:["유전적다양성종다양성생태계다양성","유전다양성종다양성생태계다양성","유전적종생태계","종유전적생태계다양성"],
+       norm:"loose",
+       keys:["유전","종","생태계"],
+       ex:"생물다양성은 <b>유전적 다양성 · 종 다양성 · 생태계 다양성</b>으로 이루어집니다."},
+
+      {type:"mc", q:"O/X — 캐번디시 바나나는 개체 간 유전자 차이가 거의 없어 유전적 다양성이 높다.",
+       opts:["O","X"], a:1,
+       ex:"유전자 차이가 없다는 것은 유전적 다양성이 <b>낮다</b>는 뜻입니다. 그래서 세균이나 기후 변화에 한꺼번에 멸종될 위험이 큽니다."}
+    ],
+
+    advanced: [
+      {type:"mc", q:"유전적 다양성이 높은 집단이 멸종 가능성이 낮은 까닭으로 가장 알맞은 것은?",
+       opts:["개체 수가 항상 더 많기 때문","환경 변화에 적응할 수 있는 유전자를 가진 개체가 존재할 확률이 높기 때문","환경이 변해도 유전자가 스스로 바뀌기 때문","천적이 접근하지 못하기 때문"],
+       a:1, ex:"유전적 다양성이 높으면 새로운 질병·기후 변화가 닥쳐도 <b>그 환경을 견딜 유전자를 가진 개체</b>가 있을 확률이 높아 집단이 살아남습니다."},
+
+      {type:"mc", q:"생태계 A [참새–메뚜기–벼], 생태계 B [참새–메뚜기, 쥐–벼]에서 메뚜기가 멸종했을 때의 결과로 옳은 것은?",
+       opts:["A는 안정하고 B는 붕괴한다","A와 B 모두 붕괴한다","B는 참새가 쥐를 먹을 수 있어 먹이그물이 유지된다","두 생태계 모두 변화가 없다"],
+       a:2, ex:"먹이그물이 복잡할수록(종 다양성이 높을수록) 한 종이 사라져도 대체 경로가 있어 <b>생태계가 안정</b>하게 유지됩니다."},
+
+      {type:"mc", q:"갯벌이 파괴되어 게, 꼬막 등이 멸종했다. 이 사례가 직접적으로 보여 주는 생물다양성 요소는?",
+       opts:["유전적 다양성","종 다양성","생태계 다양성","개체군 다양성"],
+       a:2, ex:"갯벌이라는 <b>서식지(생태계) 자체</b>가 사라진 것이므로 생태계 다양성 감소 사례입니다. 그 결과 종 다양성도 함께 낮아집니다."},
+
+      {type:"mc", q:"호랑나비 무리에서 날개 무늬가 개체마다 다른 것은 어떤 다양성에 해당하는가?",
+       opts:["유전적 다양성","종 다양성","생태계 다양성","군집 다양성"],
+       a:0, ex:"<b>한 종 안에서</b> 개체 간 형질이 다른 것이므로 유전적 다양성입니다."},
+
+      {type:"mc", q:"이쑤시개 모의실험에서 황색 종이 위에 나무·녹말 이쑤시개를 놓고 세대를 반복하면 예상되는 결과는?",
+       opts:["녹말 이쑤시개의 비율이 점점 높아진다","나무 이쑤시개의 비율이 점점 높아진다","두 종류의 비율이 계속 같게 유지된다","이쑤시개가 모두 사라진다"],
+       a:1, ex:"황색 종이 위에서는 색이 비슷한 <b>나무 이쑤시개</b>가 눈에 덜 띄어 덜 제거되므로 세대를 거듭할수록 비율이 높아집니다."},
+
+      {type:"mc", q:"이쑤시개 모의실험에서 ‘이쑤시개를 집어내는 사람’이 실제 자연에서 나타내는 것은?",
+       opts:["돌연변이","포식자(자연선택 요인)","번식","서식지 파괴"],
+       a:1, ex:"집어내는 사람 = 포식자, 이쑤시개 색 = 변이, 남은 수만큼 더해 주는 것 = 번식에 해당합니다."},
+
+      {type:"mc", q:"변이가 생기는 원인으로 짝지어진 것은?",
+       opts:["유성생식, 돌연변이","무성생식, 자연선택","자연선택, 진화","포식, 경쟁"],
+       a:0, ex:"부모의 유전자가 다양하게 조합되는 <b>유성생식</b>과 유전정보가 새롭게 바뀌는 <b>돌연변이</b>가 변이의 주요 원인입니다."},
+
+      {type:"mc", q:"다음 중 다윈의 자연선택설로 진화를 설명한 것으로 옳은 것은?",
+       opts:["기린이 목을 자꾸 늘여서 목이 길어졌고, 그 형질이 자손에게 전해졌다","목 길이에 변이가 있었고, 높은 곳의 잎을 먹기 유리한 긴 목 개체가 살아남아 자손을 더 많이 남겼다","환경이 기린의 유전자를 직접 길게 바꾸었다","기린이 스스로 필요를 느껴 유전자를 바꾸었다"],
+       a:1, ex:"자연선택설은 <b>이미 존재하는 변이</b> 중 유리한 형질이 선택되어 여러 세대에 걸쳐 집단이 변한다고 설명합니다. 1번은 용불용설식 설명입니다."},
+
+      {type:"sa", q:"생물다양성이 형성된 과정을 순서대로 완성하시오. ‘변이 → ( ) → 진화 → 생물다양성 형성’ 괄호에 들어갈 말은?",
+       a:["자연선택","자연 선택"],
+       ex:"변이가 있는 개체들 중 유리한 형질이 <b>자연선택</b>되고, 이 과정이 오랜 세월 반복되어 진화가 일어나며 생물다양성이 형성됩니다."},
+
+      {type:"mc", q:"생물다양성 보전을 위한 실천으로 보기 어려운 것은?",
+       opts:["멸종 위기종 복원 사업 추진","일회용품 사용을 늘려 편리하게 생활하기","대중교통 이용과 재활용 실천","생물다양성 보전 관련 법 제정"],
+       a:1, ex:"일회용품 사용 증가는 자원 낭비와 서식지 오염으로 이어져 생물다양성을 <b>감소</b>시킵니다. 나머지는 모두 보전 방법입니다."}
+    ]
+  };
+
+  /* ---------- 퀴즈 엔진 ---------- */
+  var level = "basic", list = [], idx = 0, score = 0, wrongs = [];
+  var area = document.getElementById('quizArea');
+  var bar = document.getElementById('bar');
+  var counter = document.getElementById('counter');
+  var scoreNow = document.getElementById('scoreNow');
+
+  function normalize(s){
+    return String(s).replace(/\s+/g,'').replace(/[.,·!?~'"()\[\]]/g,'').toLowerCase();
+  }
+  function buildList(lv){
+    if(lv === 'all') return BANK.basic.concat(BANK.advanced);
+    return BANK[lv].slice();
+  }
+  function start(lv){
+    level = lv; list = buildList(lv); idx = 0; score = 0; wrongs = [];
+    render();
+  }
+  function updateMeta(){
+    counter.textContent = Math.min(idx+1, list.length) + ' / ' + list.length;
+    scoreNow.textContent = '맞힌 개수 ' + score;
+    bar.style.width = (idx / list.length * 100) + '%';
+  }
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function render(){
+    if(idx >= list.length){ renderResult(); return; }
+    updateMeta();
+    var q = list[idx];
+    var levelTag = (level==='all' && idx >= BANK.basic.length) ? '심화' : (level==='advanced' ? '심화' : '기본');
+    var html = '<div class="qcard">' +
+      '<div class="qnum">' + levelTag + ' · 문제 ' + (idx+1) + '</div>' +
+      '<div class="qtext">' + q.q + '</div>';
+    if(q.type === 'mc'){
+      html += '<div class="opts" id="opts">';
+      q.opts.forEach(function(o,i){
+        html += '<button type="button" data-i="'+i+'">' + esc(o) + '</button>';
+      });
+      html += '</div>';
+    } else {
+      html += '<div class="sa"><input type="text" id="saInput" placeholder="답을 입력하세요" autocomplete="off">' +
+              '<button class="btn" id="saBtn" type="button">확인</button></div>';
+    }
+    html += '<div class="fb" id="fb"></div>' +
+            '<div class="nav-row"><button class="btn" id="nextBtn" type="button" style="display:none">' +
+            (idx === list.length-1 ? '결과 보기' : '다음 문제') + '</button></div></div>';
+    area.innerHTML = html;
+
+    var fb = document.getElementById('fb');
+    var nextBtn = document.getElementById('nextBtn');
+    nextBtn.addEventListener('click', function(){ idx++; render(); window.scrollTo({top:0,behavior:'smooth'}); });
+
+    function finish(ok, mine){
+      if(ok){ score++; }
+      else { wrongs.push({q:q.q, mine:mine, ans:answerText(q), ex:q.ex}); }
+      fb.className = 'fb show ' + (ok ? 'o' : 'x');
+      fb.innerHTML = '<b>' + (ok ? '⭕ 정답이에요!' : '❌ 다시 확인해요') + '</b>' +
+                     (ok ? '' : '<div style="margin-bottom:6px">정답: <b>' + esc(answerText(q)) + '</b></div>') +
+                     q.ex;
+      nextBtn.style.display = 'inline-block';
+      updateMeta();
+    }
+
+    if(q.type === 'mc'){
+      var btns = area.querySelectorAll('#opts button');
+      btns.forEach(function(b){
+        b.addEventListener('click', function(){
+          var i = parseInt(b.dataset.i, 10);
+          btns.forEach(function(x){ x.disabled = true; });
+          btns[q.a].classList.add('correct');
+          if(i !== q.a){ b.classList.add('wrong'); }
+          finish(i === q.a, q.opts[i]);
+        });
+      });
+    } else {
+      var input = document.getElementById('saInput');
+      var saBtn = document.getElementById('saBtn');
+      function submitSA(){
+        var v = input.value.trim();
+        if(!v) { input.focus(); return; }
+        var n = normalize(v), ok = false;
+        if(q.keys){ ok = q.keys.every(function(k){ return n.indexOf(normalize(k)) !== -1; }); }
+        if(!ok){ ok = q.a.some(function(a){ return normalize(a) === n; }); }
+        input.disabled = true; saBtn.disabled = true;
+        input.style.borderColor = ok ? 'var(--ok)' : 'var(--no)';
+        finish(ok, v);
+      }
+      saBtn.addEventListener('click', submitSA);
+      input.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ submitSA(); } });
+      input.focus();
+    }
+  }
+
+  function answerText(q){
+    if(q.type === 'mc') return q.opts[q.a];
+    return q.a[0];
+  }
+
+  function renderResult(){
+    bar.style.width = '100%';
+    counter.textContent = list.length + ' / ' + list.length;
+    scoreNow.textContent = '맞힌 개수 ' + score;
+    var pct = Math.round(score / list.length * 100);
+    var msg, tip;
+    if(pct === 100){ msg = '완벽해요! ∞도전 성공 🎉'; tip = '심화 단계나 전체 도전으로 넘어가 볼까요?'; }
+    else if(pct >= 80){ msg = '아주 잘했어요! 👏'; tip = '틀린 문제의 해설만 다시 읽으면 끝!'; }
+    else if(pct >= 60){ msg = '조금만 더! 💪'; tip = '개념 정리 탭에서 헷갈린 부분을 다시 확인해 보세요.'; }
+    else { msg = '개념부터 다시 정리해요 📘'; tip = '개념 정리 → 생물다양성 탭을 읽고 다시 도전해 보세요.'; }
+
+    var html = '<div class="qcard result">' +
+      '<div class="score">' + score + ' / ' + list.length + '</div>' +
+      '<div style="color:var(--ink-soft);font-size:14px">정답률 ' + pct + '%</div>' +
+      '<div class="msg">' + msg + '</div>' +
+      '<div style="color:var(--ink-soft);font-size:14px">' + tip + '</div>' +
+      '<div class="nav-row" style="justify-content:center;margin-top:20px">' +
+      '<button class="btn ghost" id="againBtn" type="button">처음부터 다시 풀기</button>';
+    if(wrongs.length){ html += '<button class="btn" id="wrongBtn" type="button">틀린 문제만 다시 풀기</button>'; }
+    html += '</div>';
+
+    if(wrongs.length){
+      html += '<div class="review"><h3 style="font-size:16px;color:var(--brand-deep)">📝 오답 노트</h3>';
+      wrongs.forEach(function(w){
+        html += '<div class="item"><div class="q">' + w.q + '</div>' +
+                '<div>내 답: <span class="mine">' + esc(w.mine) + '</span></div>' +
+                '<div>정답: <span class="ans">' + esc(w.ans) + '</span></div>' +
+                '<div style="margin-top:6px;color:var(--ink-soft)">' + w.ex + '</div></div>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+    area.innerHTML = html;
+
+    document.getElementById('againBtn').addEventListener('click', function(){ start(level); window.scrollTo({top:0,behavior:'smooth'}); });
+    var wb = document.getElementById('wrongBtn');
+    if(wb){
+      wb.addEventListener('click', function(){
+        var texts = wrongs.map(function(w){ return w.q; });
+        var all = buildList(level).filter(function(q){ return texts.indexOf(q.q) !== -1; });
+        list = all; idx = 0; score = 0; wrongs = [];
+        render(); window.scrollTo({top:0,behavior:'smooth'});
+      });
+    }
+  }
+
+  /* ---------- 단계 선택 ---------- */
+  var lvBtns = document.querySelectorAll('#levelbar button');
+  lvBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      lvBtns.forEach(function(o){ o.setAttribute('aria-pressed','false'); });
+      b.setAttribute('aria-pressed','true');
+      start(b.dataset.level);
+    });
+  });
+
+  start('basic');
+})();
+</script>
+</body>
+</html>
